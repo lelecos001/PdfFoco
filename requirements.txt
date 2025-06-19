@@ -1,0 +1,7 @@
+streamlit
+pypdf
+streamlit_option_menu
+pathlib
+tempfile
+zipfile
+io
