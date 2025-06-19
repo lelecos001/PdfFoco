@@ -1,7 +1,5 @@
 streamlit
 streamlit_option_menu
 pathlib
-tempfile
-zipfile
 io
 PyPDF2
