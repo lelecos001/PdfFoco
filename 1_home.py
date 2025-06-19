@@ -38,7 +38,7 @@ _, col2, _=st.columns(3)
 
 match escolha:
     case 'Extrair Página':
-        tipoPagina = col2.radio("Qual página gostaria de retirtar?",["Primeira Página","Última Página"],horizontal=True)
+        tipoPagina = col2.radio("Qual página gostaria de retirar?",["Primeira Página","Última Página"],horizontal=True)
 
 arquivos = col2.file_uploader("Selecione o(s) arquivo(s)",type="pdf",accept_multiple_files=True)
 
@@ -71,20 +71,23 @@ def compactar(dados):
     zip_buffer.seek(0)
     return zip_buffer.getvalue()
 
+def etl():
+        dados = retirarFolhas(tipoPagina,arquivos)
+        if len(dados)>1:
+            dadosDownload = compactar(dados)
+            tipoMime = "application/zip"
+            nomeStream = None
+        else:
+            dadosDownload = dados[0][1]
+            tipoMime = "application/pdf"
+            nomeStream = dados[0][0]
+        return [dadosDownload,tipoMime,nomeStream]
+
 if arquivos:
-    dados = retirarFolhas(tipoPagina,arquivos)
-    if len(dados)>1:
-        dadosDownload = compactar(dados)
-        tipoMime = "application/zip"
-        nomeStream = None
-    else:
-        dadosDownload = dados[0][1]
-        tipoMime = "application/pdf"
-        nomeStream = dados[0][0]
     col2.download_button(
         label="Clique aqui para realizar o Download",
-        data=dadosDownload,
-        mime=tipoMime,
-        file_name=nomeStream,
+        data=etl()[0],
+        mime=etl()[1],
+        file_name=etl()[2],
         icon=":material/download:",
     )
