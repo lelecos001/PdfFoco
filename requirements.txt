@@ -5,3 +5,4 @@ pathlib
 tempfile
 zipfile
 io
+PyPDF2
