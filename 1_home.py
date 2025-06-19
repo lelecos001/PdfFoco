@@ -1,5 +1,5 @@
 import streamlit as st
-import pypdf
+import PyPDF2
 from streamlit_option_menu import option_menu
 from pathlib import Path
 import tempfile
@@ -45,16 +45,16 @@ arquivos = col2.file_uploader("Selecione o(s) arquivo(s)",type="pdf",accept_mult
 def retirarFolhas(tipoPagina,arquivos):
     dados = []
     for arquivo in arquivos:
-            arquivoPyPDF = pypdf.PdfWriter()
+            arquivoPyPDF2 = PyPDF2.PdfWriter()
             nomeArquivo = arquivo.name
-            leitor = pypdf.PdfReader(arquivo)
+            leitor = PyPDF2.PdfReader(arquivo)
             if tipoPagina == 'Última Página':
-                arquivoPyPDF.add_page(leitor.pages[-1])
+                arquivoPyPDF2.add_page(leitor.pages[-1])
             else:
-                arquivoPyPDF.add_page(leitor.pages[0])
+                arquivoPyPDF2.add_page(leitor.pages[0])
             with tempfile.TemporaryDirectory() as tempDir:
                 tempFile = Path(tempDir) / 'temp.pdf'
-                arquivoPyPDF.write(tempFile)
+                arquivoPyPDF2.write(tempFile)
                 with open(tempFile, 'rb') as nomeArquivo2:
                     dataDownload = nomeArquivo2.read()
             dados.append((nomeArquivo, dataDownload))
